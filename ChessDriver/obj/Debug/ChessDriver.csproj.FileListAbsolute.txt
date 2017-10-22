@@ -1,0 +1,5 @@
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\ChessDriver\bin\Debug\ChessDriver.dll
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\ChessDriver\bin\Debug\ChessDriver.pdb
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\ChessDriver\obj\Debug\ChessDriver.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\ChessDriver\obj\Debug\ChessDriver.dll
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\ChessDriver\obj\Debug\ChessDriver.pdb

@@ -1,0 +1,12 @@
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\bin\Debug\ChessBotOnline.exe.config
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.csprojResolveAssemblyReference.cache
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.ChessBoard.resources
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.Properties.Resources.resources
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.csproj.GenerateResource.Cache
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\bin\Debug\ChessBotOnline.exe
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\bin\Debug\ChessBotOnline.pdb
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.exe
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.pdb
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\obj\Debug\ChessBotOnline.StartSettings.resources
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\bin\Debug\ChessDriver.dll
+C:\Users\Андрей\Documents\GitHub\ChessBotOnline\bin\Debug\ChessDriver.pdb
