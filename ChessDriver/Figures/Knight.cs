@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace ChessDriver.Figures
 {
-    public class Knight
+    public class Knight:Figure
     {
-        public string ImgPath = "";
-        public double Weight { get; set; }
-        public int[] Coord { get; set; }
-
         public List<int[]> getAllowedSteps(int[,] tile, int[] coord)
         {
 

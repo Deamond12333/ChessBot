@@ -24,37 +24,37 @@ namespace ChessBotOnline
         {
             IsWhite = isWhite.Checked;
 
-            if (!double.TryParse(pawnWeight.Text, out PawnWeight))
+            if (!double.TryParse(pawnWeightOpp1.Text, out PawnWeight))
             {
                 MessageBox.Show("В поле 'Вес пешки' скорее всего не число.");
                 return;
             }
 
-            if (!double.TryParse(rookWeight.Text, out RookWeight))
+            if (!double.TryParse(rookWeightOpp1.Text, out RookWeight))
             {
                 MessageBox.Show("В поле 'Вес ладьи' скорее всего не число.");
                 return;
             }
 
-            if (!double.TryParse(bishopWeight.Text, out BishopWeight))
+            if (!double.TryParse(bishopWeightOpp1.Text, out BishopWeight))
             {
                 MessageBox.Show("В поле 'Вес офицера' скорее всего не число.");
                 return;
             }
 
-            if (!double.TryParse(knightWeight.Text, out KnightWeight))
+            if (!double.TryParse(knightWeightOpp1.Text, out KnightWeight))
             {
                 MessageBox.Show("В поле 'Вес коня' скорее всего не число.");
                 return;
             }
 
-            if (!double.TryParse(queenWeight.Text, out QueenWeight))
+            if (!double.TryParse(queenWeightOpp1.Text, out QueenWeight))
             {
                 MessageBox.Show("В поле 'Вес ферзя' скорее всего не число.");
                 return;
             }
 
-            if (!double.TryParse(kingWeight.Text, out KingWeight))
+            if (!double.TryParse(kingWeightOpp1.Text, out KingWeight))
             {
                 MessageBox.Show("В поле 'Вес короля' скорее всего не число.");
                 return;

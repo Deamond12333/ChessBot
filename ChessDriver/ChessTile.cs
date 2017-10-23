@@ -13,119 +13,120 @@ namespace ChessDriver
 {
     public class ChessTile
     {
-        public List<Pawn> WhitePawns, BlackPawns;
-        public List<Rook> WhiteRooks, BlackRooks;
-        public List<Bishop> WhiteBishops, BlackBishops;
-        public List<Knight> WhiteKnights, BlackKnights;
-        public Queen WhiteQueen, BlackQueen;
-        public King WhiteKing, BlackKing;
+        public List<Figure> Figures { get; set; }
         public bool IsWhite;
         public ChessTile(bool isWhite, double pawnWeight, double rookWeight, double bishopWeight, double knightWeight, double queenWeight, double kingWeight)
         {
             this.IsWhite = isWhite;
-            WhitePawns = new List<Pawn>();
+            Figures = new List<Figure>();
             for (int i = 0; i < 8; i++)
             {
                 Pawn p = new Pawn();
                 p.ImgPath = "addons/pawn_white.png";
-                p.Coord = new int[2] { 6, i };
+                p.Coord = new int[2] { i, 6 };
                 p.Weight = pawnWeight;
-                WhitePawns.Add(p);
+                Figures.Add(p);
             }
 
-            BlackPawns = new List<Pawn>();
             for (int i = 0; i < 8; i++)
             {
                 Pawn p = new Pawn();
                 p.ImgPath = "addons/pawn_black.png";
-                p.Coord = new int[2] { 1, i };
+                p.Coord = new int[2] { i, 1 };
                 p.Weight = pawnWeight;
-                BlackPawns.Add(p);
+                Figures.Add(p);
             }
 
-            WhiteRooks = new List<Rook>();
             for (int i = 0; i < 8; i+=7)
             {
                 Rook r = new Rook();
                 r.ImgPath = "addons/rook_white.png";
-                r.Coord = new int[2] {7 , i };
+                r.Coord = new int[2] {i , 7 };
                 r.Weight = rookWeight;
-                WhiteRooks.Add(r);
+                Figures.Add(r);
             }
 
-            BlackRooks = new List<Rook>();
             for (int i = 0; i < 8; i += 7)
             {
                 Rook r = new Rook();
                 r.ImgPath = "addons/rook_black.png";
-                r.Coord = new int[2] { 0, i };
+                r.Coord = new int[2] { i, 0 };
                 r.Weight = rookWeight;
-                BlackRooks.Add(r);
+                Figures.Add(r);
             }
 
-            WhiteBishops = new List<Bishop>();
             for (int i = 1; i < 8; i += 5)
             {
                 Bishop b = new Bishop();
                 b.ImgPath = "addons/bishop_white.png";
-                b.Coord = new int[2] { 7, i };
+                b.Coord = new int[2] { i, 7 };
                 b.Weight = bishopWeight;
-                WhiteBishops.Add(b);
+                Figures.Add(b);
             }
 
-            BlackBishops = new List<Bishop>();
             for (int i = 1; i < 8; i += 5)
             {
                 Bishop b = new Bishop();
                 b.ImgPath = "addons/bishop_black.png";
-                b.Coord = new int[2] { 0, i };
+                b.Coord = new int[2] { i, 0 };
                 b.Weight = bishopWeight;
-                BlackBishops.Add(b);
+                Figures.Add(b);
             }
 
-            WhiteKnights = new List<Knight>();
             for (int i = 2; i < 8; i += 3)
             {
-                Knight k = new Knight();
-                k.ImgPath = "addons/knight_white.png";
-                k.Coord = new int[2] { 7, i };
-                k.Weight = knightWeight;
-                WhiteKnights.Add(k);
+                Knight kn = new Knight();
+                kn.ImgPath = "addons/knight_white.png";
+                kn.Coord = new int[2] { i, 7 };
+                kn.Weight = knightWeight;
+                Figures.Add(kn);
             }
 
-            BlackKnights = new List<Knight>();
             for (int i = 2; i < 8; i += 3)
             {
-                Knight k = new Knight();
-                k.ImgPath = "addons/knight_black.png";
-                k.Coord = new int[2] { 0, i };
-                k.Weight = knightWeight;
-                BlackKnights.Add(k);
+                Knight kn = new Knight();
+                kn.ImgPath = "addons/knight_black.png";
+                kn.Coord = new int[2] { i, 0 };
+                kn.Weight = knightWeight;
+                Figures.Add(kn);
             }
 
-            WhiteQueen = new Queen();
-            WhiteQueen.ImgPath = "addons/queen_white.png";
-            WhiteQueen.Coord = new int[2] { 7, 3 };
-            WhiteQueen.Weight = queenWeight;
+            Queen q = new Queen();
+            q.ImgPath = "addons/queen_white.png";
+            q.Coord = new int[2] { 3, 7 };
+            q.Weight = queenWeight;
+            Figures.Add(q);
 
-            BlackQueen = new Queen();
-            BlackQueen.ImgPath = "addons/queen_black.png";
-            BlackQueen.Coord = new int[2] { 0, 3 };
-            BlackQueen.Weight = queenWeight;
+            q = new Queen();
+            q.ImgPath = "addons/queen_black.png";
+            q.Coord = new int[2] { 3, 0 };
+            q.Weight = queenWeight;
+            Figures.Add(q);
 
-            WhiteKing = new King();
-            WhiteKing.ImgPath = "addons/king_white.png";
-            WhiteKing.Coord = new int[2] { 7, 4 };
-            WhiteKing.Weight = kingWeight;
+            King k = new King();
+            k.ImgPath = "addons/king_white.png";
+            k.Coord = new int[2] { 4, 7 };
+            k.Weight = kingWeight;
+            Figures.Add(k);
 
-            BlackKing = new King();
-            BlackKing.ImgPath = "addons/king_black.png";
-            BlackKing.Coord = new int[2] { 0, 4 };
-            BlackKing.Weight = kingWeight;
+            k = new King();
+            k.ImgPath = "addons/king_black.png";
+            k.Coord = new int[2] { 4, 0 };
+            k.Weight = kingWeight;
+            Figures.Add(k);
         }
         public void DoStep()
         {
 
+        }
+
+        public Figure getFigureFromCoord(int[] coord)
+        {
+            foreach (Figure f in Figures)
+            {
+                if (f.Coord[0] == coord[0] && f.Coord[1] == coord[1]) return f;
+            }
+            return null;
         }
     }
 }

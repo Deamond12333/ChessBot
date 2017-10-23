@@ -46,6 +46,7 @@
             this.Text = "Chess";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.ChessBoard_Paint);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ChessBoard_MouseClick);
             this.ResumeLayout(false);
 
         }

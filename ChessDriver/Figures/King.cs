@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessDriver
+namespace ChessDriver.Figures
 {
-    public class King
+    public class King:Figure
     {
-        public string ImgPath = "";
-        public double Weight { get; set; }
-        public int[] Coord { get; set; }
-
         public List<int[]> getAllowedSteps(int[,] tile, int[] coord)
         {
 

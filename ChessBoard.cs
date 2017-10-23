@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ChessDriver;
+using ChessDriver.Figures;
 
 namespace ChessBotOnline
 {
@@ -15,6 +16,7 @@ namespace ChessBotOnline
     {
         ChessTile tile;
         StartSettings ss;
+        float BEGIN_X = 422.5f, BEGIN_Y = 57.0f, STEP = 93.5f, END_X = 422.5f + 93.5f * 8, END_Y = 57.0f + 93.5f * 8;
         public ChessBoard()
         {
             InitializeComponent();
@@ -32,18 +34,31 @@ namespace ChessBotOnline
 
         private void ChessBoard_Paint(object sender, PaintEventArgs e)
         {
-            int beginPoint = 440 - 93;
-            foreach(Pawn p in tile.BlackPawns)
+            float[] coord;
+            foreach(Figure f in tile.Figures)
             {
-                e.Graphics.DrawImage(Image.FromFile(p.ImgPath), beginPoint += 94, 160, 60, 85);
+                coord = getCoordsForDrawing(f.Coord);
+                e.Graphics.DrawImage(Image.FromFile(f.ImgPath), coord[0], coord[1], 100, 100);
             }
-            beginPoint = 440 - 93;
-            foreach (Pawn p in tile.WhitePawns)
+        }
+        private float[] getCoordsForDrawing(int[] chessCoord)
+        {
+            float[] coord = new float[2];
+            coord[0] = BEGIN_X + STEP * chessCoord[0];
+            coord[1] = BEGIN_Y + STEP * chessCoord[1];
+            return coord;
+        }
+
+        private void ChessBoard_MouseClick(object sender, MouseEventArgs e)
+        {
+            int[] chessCoord = new int[2];
+            chessCoord[0] = (int)((e.X - BEGIN_X) % STEP);
+            chessCoord[1] = (int)((e.Y - BEGIN_Y) % STEP);
+            Figure f = tile.getFigureFromCoord(chessCoord);
+            if (f != null)
             {
-                e.Graphics.DrawImage(Image.FromFile(p.ImgPath), beginPoint += 94, 630, 60, 85);
+                
             }
-            e.Graphics.DrawImage(Image.FromFile(tile.BlackQueen.ImgPath), 720, 45, 60, 100);
-            e.Graphics.DrawImage(Image.FromFile(tile.WhiteQueen.ImgPath), 720, 705, 60, 100);
         }
     }
 }

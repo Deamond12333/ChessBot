@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.IO;
 
-namespace ChessDriver
+namespace ChessDriver.Figures
 {
-    public class Pawn
+    public class Pawn:Figure
     {
-        public string ImgPath = "";
-        public double Weight { get; set; }
-        public int[] Coord { get; set; }
-
         public List<int[]> getAllowedSteps(int[,] tile, int[] coord)
         {
 

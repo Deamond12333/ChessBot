@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Figures\Bishop.cs" />
     <Compile Include="ChessTile.cs" />
+    <Compile Include="Figures\Figure.cs" />
     <Compile Include="Figures\King.cs" />
     <Compile Include="Figures\Knight.cs" />
     <Compile Include="Figures\Pawn.cs" />
