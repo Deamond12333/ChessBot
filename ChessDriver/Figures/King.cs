@@ -8,10 +8,18 @@ namespace ChessDriver.Figures
 {
     public class King:Figure
     {
-        public List<int[]> getAllowedSteps(int[,] tile, int[] coord)
+        public List<int[]> getAllowedSteps(List<Figure> figures, Figure f)
         {
+            List<int[]> allowedSteps = new List<int[]>();
+            if (f.IsWhite)
+            {
 
-            return null;
+            }
+            else
+            {
+
+            }
+            return allowedSteps;
         }
     }
 }

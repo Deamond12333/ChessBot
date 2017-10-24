@@ -16,7 +16,9 @@ namespace ChessBotOnline
     {
         ChessTile tile;
         StartSettings ss;
-        float BEGIN_X = 422.5f, BEGIN_Y = 57.0f, STEP = 93.5f, END_X = 422.5f + 93.5f * 8, END_Y = 57.0f + 93.5f * 8;
+        float BEGIN_X = 421f, BEGIN_Y = 60f, STEP = 94f;
+        bool isWhite, botVSbot, botsWar;
+        int stepTime;
         public ChessBoard()
         {
             InitializeComponent();
@@ -29,7 +31,12 @@ namespace ChessBotOnline
 
         void StartSettings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tile = new ChessTile(ss.IsWhite, ss.PawnWeight, ss.RookWeight, ss.BishopWeight, ss.KnightWeight, ss.QueenWeight, ss.KingWeight);
+            stepTime = ss.StepTime;
+            isWhite = ss.IsWhite;
+            botVSbot = ss.BotVSbot;
+            botsWar = ss.BotsWar;
+
+            tile = new ChessTile(ss.BotVSbot, ss.IsWhite, ss.PawnWeightOpp1, ss.RookWeightOpp1, ss.BishopWeightOpp1, ss.KnightWeightOpp1, ss.QueenWeightOpp1, ss.KingWeightOpp1, ss.PawnWeightOpp2, ss.RookWeightOpp2, ss.BishopWeightOpp2, ss.KnightWeightOpp2, ss.QueenWeightOpp2, ss.KingWeightOpp2);
         }
 
         private void ChessBoard_Paint(object sender, PaintEventArgs e)
@@ -52,12 +59,34 @@ namespace ChessBotOnline
         private void ChessBoard_MouseClick(object sender, MouseEventArgs e)
         {
             int[] chessCoord = new int[2];
-            chessCoord[0] = (int)((e.X - BEGIN_X) % STEP);
-            chessCoord[1] = (int)((e.Y - BEGIN_Y) % STEP);
+            List<int[,]> allowedSteps;
+            chessCoord[0] = (int)(((e.X - BEGIN_X) - ((e.X - BEGIN_X) % STEP)) / STEP);
+            chessCoord[1] = (int)(((e.Y - BEGIN_Y) - ((e.Y - BEGIN_Y) % STEP)) / STEP);
             Figure f = tile.getFigureFromCoord(chessCoord);
             if (f != null)
             {
-                
+                switch (f.GetType().ToString())
+                {
+                    case "ChessDriver.Figures.Pawn":
+                        allowedSteps = ((Pawn)f).getAllowedSteps(tile.Figures, f);
+                        break;
+
+                    case "ChessDriver.Figures.Knight":
+                        f = (Knight)f; break;
+
+                    case "ChessDriver.Figures.King":
+                        f = (King)f; break;
+
+                    case "ChessDriver.Figures.Bishop":
+                        f = (Bishop)f; break;
+
+                    case "ChessDriver.Figures.Queen":
+                        f = (Queen)f; break;
+
+                    case "ChessDriver.Figures.Rook":
+                        f = (Rook)f; break;
+
+                }
             }
         }
     }

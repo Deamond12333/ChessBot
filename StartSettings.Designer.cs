@@ -43,7 +43,6 @@
             this.label6 = new System.Windows.Forms.Label();
             this.kingWeightOpp1 = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.youVSbot = new System.Windows.Forms.CheckBox();
             this.botVSbot = new System.Windows.Forms.CheckBox();
             this.botsWar = new System.Windows.Forms.CheckBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -59,7 +58,7 @@
             // gameStart
             // 
             this.gameStart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(128)))));
-            this.gameStart.Location = new System.Drawing.Point(12, 253);
+            this.gameStart.Location = new System.Drawing.Point(12, 230);
             this.gameStart.Name = "gameStart";
             this.gameStart.Size = new System.Drawing.Size(256, 23);
             this.gameStart.TabIndex = 0;
@@ -190,57 +189,48 @@
             this.label7.TabIndex = 14;
             this.label7.Text = "Вес фигур";
             // 
-            // youVSbot
-            // 
-            this.youVSbot.AutoSize = true;
-            this.youVSbot.Checked = true;
-            this.youVSbot.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.youVSbot.Location = new System.Drawing.Point(15, 184);
-            this.youVSbot.Name = "youVSbot";
-            this.youVSbot.Size = new System.Drawing.Size(126, 17);
-            this.youVSbot.TabIndex = 15;
-            this.youVSbot.Text = "Играть против бота";
-            this.youVSbot.UseVisualStyleBackColor = true;
-            // 
             // botVSbot
             // 
             this.botVSbot.AutoSize = true;
-            this.botVSbot.Location = new System.Drawing.Point(15, 230);
+            this.botVSbot.Location = new System.Drawing.Point(15, 207);
             this.botVSbot.Name = "botVSbot";
             this.botVSbot.Size = new System.Drawing.Size(149, 17);
             this.botVSbot.TabIndex = 17;
             this.botVSbot.Text = "Бот против самого себя";
             this.botVSbot.UseVisualStyleBackColor = true;
+            this.botVSbot.CheckedChanged += new System.EventHandler(this.botVSbot_CheckedChanged);
             // 
             // botsWar
             // 
             this.botsWar.AutoSize = true;
-            this.botsWar.Location = new System.Drawing.Point(15, 207);
+            this.botsWar.Location = new System.Drawing.Point(15, 184);
             this.botsWar.Name = "botsWar";
             this.botsWar.Size = new System.Drawing.Size(130, 17);
             this.botsWar.TabIndex = 16;
             this.botsWar.Text = "Война ботов по сети";
             this.botsWar.UseVisualStyleBackColor = true;
+            this.botsWar.CheckedChanged += new System.EventHandler(this.botsWar_CheckedChanged);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(176, 188);
+            this.label8.Location = new System.Drawing.Point(171, 165);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(92, 13);
+            this.label8.Size = new System.Drawing.Size(78, 13);
             this.label8.TabIndex = 19;
-            this.label8.Text = "Время хода, мин";
+            this.label8.Text = "Время хода, с";
             // 
             // stepTime
             // 
-            this.stepTime.Location = new System.Drawing.Point(193, 204);
+            this.stepTime.Location = new System.Drawing.Point(174, 181);
             this.stepTime.Name = "stepTime";
             this.stepTime.Size = new System.Drawing.Size(44, 20);
             this.stepTime.TabIndex = 18;
-            this.stepTime.Text = "3";
+            this.stepTime.Text = "60";
             // 
             // pawnWeightOpp2
             // 
+            this.pawnWeightOpp2.Enabled = false;
             this.pawnWeightOpp2.Location = new System.Drawing.Point(65, 48);
             this.pawnWeightOpp2.Name = "pawnWeightOpp2";
             this.pawnWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -249,6 +239,7 @@
             // 
             // bishopWeightOpp2
             // 
+            this.bishopWeightOpp2.Enabled = false;
             this.bishopWeightOpp2.Location = new System.Drawing.Point(65, 91);
             this.bishopWeightOpp2.Name = "bishopWeightOpp2";
             this.bishopWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -257,6 +248,7 @@
             // 
             // rookWeightOpp2
             // 
+            this.rookWeightOpp2.Enabled = false;
             this.rookWeightOpp2.Location = new System.Drawing.Point(65, 135);
             this.rookWeightOpp2.Name = "rookWeightOpp2";
             this.rookWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -265,6 +257,7 @@
             // 
             // kingWeightOpp2
             // 
+            this.kingWeightOpp2.Enabled = false;
             this.kingWeightOpp2.Location = new System.Drawing.Point(224, 135);
             this.kingWeightOpp2.Name = "kingWeightOpp2";
             this.kingWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -273,6 +266,7 @@
             // 
             // queenWeightOpp2
             // 
+            this.queenWeightOpp2.Enabled = false;
             this.queenWeightOpp2.Location = new System.Drawing.Point(224, 91);
             this.queenWeightOpp2.Name = "queenWeightOpp2";
             this.queenWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -281,6 +275,7 @@
             // 
             // knightWeightOpp2
             // 
+            this.knightWeightOpp2.Enabled = false;
             this.knightWeightOpp2.Location = new System.Drawing.Point(224, 48);
             this.knightWeightOpp2.Name = "knightWeightOpp2";
             this.knightWeightOpp2.Size = new System.Drawing.Size(44, 20);
@@ -292,7 +287,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(280, 284);
-            this.ControlBox = false;
             this.Controls.Add(this.kingWeightOpp2);
             this.Controls.Add(this.queenWeightOpp2);
             this.Controls.Add(this.knightWeightOpp2);
@@ -303,7 +297,6 @@
             this.Controls.Add(this.stepTime);
             this.Controls.Add(this.botVSbot);
             this.Controls.Add(this.botsWar);
-            this.Controls.Add(this.youVSbot);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.kingWeightOpp1);
@@ -320,6 +313,8 @@
             this.Controls.Add(this.isWhite);
             this.Controls.Add(this.gameStart);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "StartSettings";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Стартовые настройки";
@@ -345,7 +340,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox kingWeightOpp1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.CheckBox youVSbot;
         private System.Windows.Forms.CheckBox botVSbot;
         private System.Windows.Forms.CheckBox botsWar;
         private System.Windows.Forms.Label label8;
