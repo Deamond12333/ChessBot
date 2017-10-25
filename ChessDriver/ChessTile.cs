@@ -59,7 +59,7 @@ namespace ChessDriver
                 Figures.Add(r);
             }
 
-            for (int i = 1; i < 8; i += 5)
+            for (int i = 2; i < 8; i += 3)
             {
                 Bishop b = new Bishop();
                 b.IsWhite = true;
@@ -69,7 +69,7 @@ namespace ChessDriver
                 Figures.Add(b);
             }
 
-            for (int i = 1; i < 8; i += 5)
+            for (int i = 2; i < 8; i += 3)
             {
                 Bishop b = new Bishop();
                 b.IsWhite = false;
@@ -79,7 +79,7 @@ namespace ChessDriver
                 Figures.Add(b);
             }
 
-            for (int i = 2; i < 8; i += 3)
+            for (int i = 1; i < 8; i += 5)
             {
                 Knight kn = new Knight();
                 kn.IsWhite = true;
@@ -89,7 +89,7 @@ namespace ChessDriver
                 Figures.Add(kn);
             }
 
-            for (int i = 2; i < 8; i += 3)
+            for (int i = 1; i < 8; i += 5)
             {
                 Knight kn = new Knight();
                 kn.IsWhite = false;

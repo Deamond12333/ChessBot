@@ -11,10 +11,12 @@ namespace ChessDriver.Figures
         public List<int[]> getAllowedSteps(List<Figure> figures, Figure f)
         {
             // НУЖНО ОБРАБОТАТЬ СОБЫТИЕ СРУБА
+            // забыл про цвет фигур йопта .... вспомнил
+            // забыл про своих...
             List<int[]> allowedSteps = new List<int[]>();
             int stepLength = 1;
-            bool isStep = true, RD = true, LD = true, RU = true, LU = true;
-            while (!RD && !LD && !RU && !LU)
+            bool RD = true, LD = true, RU = true, LU = true;
+            while (RD && LD && RU && LU)
             {
                 //ищем ходы вниз вправо
                 if (RD)
@@ -24,13 +26,15 @@ namespace ChessDriver.Figures
                         if (f1.Equals(f)) continue;
                         if (f1.Coord[0] == f.Coord[0] + stepLength && f1.Coord[1] == f.Coord[1] + stepLength)
                         {
-                            isStep = false;
+                            if (f1.IsWhite == f.IsWhite) RD = false;
                             break;
                         }
                     }
-                    if (isStep && f.Coord[0] + stepLength < 8 && f.Coord[1] + stepLength < 8) //если мы не выходим за границы поля
+                    if (RD && f.Coord[0] + stepLength < 8 && f.Coord[1] + stepLength < 8) //если мы не выходим за границы поля
+                    {
                         allowedSteps.Add(new int[2] { f.Coord[0] + stepLength, f.Coord[1] + stepLength });
-                    else RD = false;
+                        //RD = false;
+                    }
                 }
                 //ищем ходы вниз влево
                 if (LD)
@@ -40,13 +44,15 @@ namespace ChessDriver.Figures
                         if (f1.Equals(f)) continue;
                         if (f1.Coord[0] == f.Coord[0] - stepLength && f1.Coord[1] == f.Coord[1] + stepLength)
                         {
-                            isStep = false;
+                            if (f1.IsWhite == f.IsWhite) LD = false;
                             break;
                         }
                     }
-                    if (isStep && f.Coord[0] - stepLength > -1 && f.Coord[1] + stepLength < 8) //если мы не выходим за границы поля
+                    if (LD && f.Coord[0] - stepLength > -1 && f.Coord[1] + stepLength < 8) //если мы не выходим за границы поля
+                    {
                         allowedSteps.Add(new int[2] { f.Coord[0] - stepLength, f.Coord[1] + stepLength });
-                    else LD = false;
+                        //LD = false;
+                    }
                 }
                 //ищем ходы вверх вправо
                 if (RU)
@@ -56,13 +62,15 @@ namespace ChessDriver.Figures
                         if (f1.Equals(f)) continue;
                         if (f1.Coord[0] == f.Coord[0] + stepLength && f1.Coord[1] == f.Coord[1] - stepLength)
                         {
-                            isStep = false;
+                            if (f1.IsWhite == f.IsWhite) RU = false;
                             break;
                         }
                     }
-                    if (isStep && f.Coord[0] + stepLength < 8 && f.Coord[1] - stepLength > -1) //если мы не выходим за границы поля
+                    if (RU && f.Coord[0] + stepLength < 8 && f.Coord[1] - stepLength > -1) //если мы не выходим за границы поля
+                    {
                         allowedSteps.Add(new int[2] { f.Coord[0] + stepLength, f.Coord[1] - stepLength });
-                    else RU = false;
+                        //RU = false;
+                    }
                 }
                 //ищем ходы верх влево
                 if (LU)
@@ -72,13 +80,15 @@ namespace ChessDriver.Figures
                         if (f1.Equals(f)) continue;
                         if (f1.Coord[0] == f.Coord[0] - stepLength && f1.Coord[1] == f.Coord[1] - stepLength)
                         {
-                            isStep = false;
+                            if (f1.IsWhite == f.IsWhite) LU = false;
                             break;
                         }
                     }
-                    if (isStep && f.Coord[0] - stepLength > -1 && f.Coord[1] - stepLength > -1) //если мы не выходим за границы поля
+                    if (LU && f.Coord[0] - stepLength > -1 && f.Coord[1] - stepLength > -1) //если мы не выходим за границы поля  
+                    {
                         allowedSteps.Add(new int[2] { f.Coord[0] - stepLength, f.Coord[1] - stepLength });
-                    else LU = false;
+                        //LU = false;
+                    }
                 }
                 stepLength++;
             }

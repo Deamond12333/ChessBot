@@ -16,9 +16,11 @@ namespace ChessBotOnline
     {
         ChessTile tile;
         StartSettings ss;
-        float BEGIN_X = 421f, BEGIN_Y = 60f, STEP = 94f;
+        const float BEGIN_X = 421f, BEGIN_Y = 60f, STEP = 94f;
         bool isWhite, botVSbot, botsWar;
         int stepTime;
+        Figure selectFigure = new Figure();
+        Dictionary<string, float[]> drawCoordBuffer = new Dictionary<string, float[]>();
         public ChessBoard()
         {
             InitializeComponent();
@@ -47,6 +49,20 @@ namespace ChessBotOnline
                 coord = getCoordsForDrawing(f.Coord);
                 e.Graphics.DrawImage(Image.FromFile(f.ImgPath), coord[0], coord[1], 100, 100);
             }
+            if (drawCoordBuffer.Count > 0)
+            {
+                foreach(KeyValuePair<string, float[]> p in drawCoordBuffer)
+                {
+                    if (p.Key.Equals("rectangle"))
+                    {
+                        e.Graphics.DrawRectangle(new Pen(Brushes.Red, 5), p.Value[0], p.Value[1], STEP, STEP);
+                    }
+                    else
+                    {
+                        e.Graphics.FillEllipse(Brushes.Red, p.Value[0], p.Value[1], 10, 10);
+                    }
+                }
+            }
         }
         private float[] getCoordsForDrawing(int[] chessCoord)
         {
@@ -58,36 +74,75 @@ namespace ChessBotOnline
 
         private void ChessBoard_MouseClick(object sender, MouseEventArgs e)
         {
-            int[] chessCoord = new int[2];
-            List<int[,]> allowedSteps;
-            chessCoord[0] = (int)(((e.X - BEGIN_X) - ((e.X - BEGIN_X) % STEP)) / STEP);
-            chessCoord[1] = (int)(((e.Y - BEGIN_Y) - ((e.Y - BEGIN_Y) % STEP)) / STEP);
-            Figure f = tile.getFigureFromCoord(chessCoord);
-            if (f != null)
+            int[] clickCoord = new int[2];
+            List<int[]> allowedSteps = new List<int[]>();
+            clickCoord[0] = (int)(((e.X - BEGIN_X) - ((e.X - BEGIN_X) % STEP)) / STEP);
+            clickCoord[1] = (int)(((e.Y - BEGIN_Y) - ((e.Y - BEGIN_Y) % STEP)) / STEP);
+            Figure f = tile.getFigureFromCoord(clickCoord);
+            if (f != null && !selectFigure.Equals(f))
             {
+                drawCoordBuffer.Clear();
+                selectFigure = f;
                 switch (f.GetType().ToString())
                 {
                     case "ChessDriver.Figures.Pawn":
+
                         allowedSteps = ((Pawn)f).getAllowedSteps(tile.Figures, f);
                         break;
 
                     case "ChessDriver.Figures.Knight":
-                        f = (Knight)f; break;
+                        allowedSteps = ((Knight)f).getAllowedSteps(tile.Figures, f);
+                        break;
 
                     case "ChessDriver.Figures.King":
-                        f = (King)f; break;
+                        allowedSteps = ((King)f).getAllowedSteps(tile.Figures, f);
+                        break;
 
                     case "ChessDriver.Figures.Bishop":
-                        f = (Bishop)f; break;
+                        allowedSteps = ((Bishop)f).getAllowedSteps(tile.Figures, f);
+                        break;
 
                     case "ChessDriver.Figures.Queen":
-                        f = (Queen)f; break;
+                        allowedSteps = ((Queen)f).getAllowedSteps(tile.Figures, f);
+                        break;
 
                     case "ChessDriver.Figures.Rook":
-                        f = (Rook)f; break;
+                        allowedSteps = ((Rook)f).getAllowedSteps(tile.Figures, f);
+                        break;
+                }
 
+                float[] coordForFigureBorder = getCoordsForDrawing(f.Coord);
+                drawCoordBuffer.Add("rectangle", new float[2] { coordForFigureBorder[0] + 2, coordForFigureBorder[1] + 4 });
+                foreach (int[] coord in allowedSteps)
+                {
+                    float[] coordForDrawSteps = getCoordsForDrawing(coord);
+                    drawCoordBuffer.Add("point"+allowedSteps.IndexOf(coord), new float[2] { coordForDrawSteps[0] + STEP / 2, coordForDrawSteps[1] + STEP / 2 });
                 }
             }
+            else if (selectFigure.Equals(f))
+            {
+                drawCoordBuffer.Clear();
+                selectFigure = new Figure();
+            }
+            else
+            {
+                foreach (KeyValuePair<string, float[]> p in drawCoordBuffer)
+                {
+                    if (!p.Key.Equals("rectangle"))
+                    {
+                        float[] coords = getCoordsForDrawing(clickCoord);
+                        if (p.Value[0] - STEP / 2 == coords[0] && p.Value[1] - STEP / 2 == coords[1])
+                        {
+                            selectFigure.Coord = clickCoord;
+                            selectFigure = new Figure();
+                            drawCoordBuffer.Clear();
+                            break;
+                        }
+                    }
+                }
+            }
+            Refresh();
+
         }
     }
 }
