@@ -12,72 +12,101 @@ namespace ChessDriver.Figures
         {
             //обработать рокировку
             List<int[]> allowedSteps = new List<int[]>();
+            bool U = true, RU = true, R = true, RD = true, D = true, LD = true, L = true, LU = true;
+            bool UE = false, RUE = false, RE = false, RDE = false, DE = false, LDE = false, LE = false, LUE = false;
 
-            //ищем ход вниз вправо
             foreach (Figure f1 in figures)
             {
                 if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] + 1 && f1.Coord[1] == f.Coord[1] + 1 && f1.IsWhite == !f.IsWhite) break;
+                //ищем ход вниз вправо
+                if (RD && f1.Coord[0] == f.Coord[0] + 1 && f1.Coord[1] == f.Coord[1] + 1)
+                {
+                    if (f1.IsWhite != f.IsWhite) RDE = true;
+                    RD = false;
+                }
+                //ищем ход вниз влево
+                if (LD && f1.Coord[0] == f.Coord[0] - 1 && f1.Coord[1] == f.Coord[1] + 1)
+                {
+                    if (f1.IsWhite != f.IsWhite) LDE = true;
+                    LD = false;
+                }
+                //ищем ход вверх вправо
+                if (RU && f1.Coord[0] == f.Coord[0] + 1 && f1.Coord[1] == f.Coord[1] - 1)
+                {
+                    if (f1.IsWhite != f.IsWhite) RUE = true;
+                    RU = false;
+                }
+                //ищем ход вверх влево
+                if (LU && f1.Coord[0] == f.Coord[0] - 1 && f1.Coord[1] == f.Coord[1] - 1)
+                {
+                    if (f1.IsWhite != f.IsWhite) LUE = true;
+                    LU = false;
+                }
+                //ищем ход вправо
+                if (R && f1.Coord[0] == f.Coord[0] + 1 && f1.Coord[1] == f.Coord[1])
+                {
+                    if (f1.IsWhite != f.IsWhite) RE = true;
+                    R = false;
+                }
+                //ищем ход влево
+                if (L && f1.Coord[0] == f.Coord[0] - 1 && f1.Coord[1] == f.Coord[1])
+                {
+                    if (f1.IsWhite != f.IsWhite) LE = true;
+                    L = false;
+                }
+                //ищем ход верх
+                if (U && f1.Coord[1] == f.Coord[1] - 1 && f1.Coord[0] == f.Coord[0])
+                {
+                    if (f1.IsWhite != f.IsWhite) UE = true;
+                    U = false;
+                }
+                //ищем ход вниз
+                if (D && f1.Coord[1] == f.Coord[1] + 1 && f1.Coord[0] == f.Coord[0])
+                {
+                    if (f1.IsWhite != f.IsWhite) DE = true;
+                    D = false;
+                }
             }
-            if (f.Coord[0] + 1 < 8 && f.Coord[1] + 1 < 8) //если мы не выходим за границы поля
+            if ((RD || RDE) && (f.Coord[0] + 1 < 8 && f.Coord[1] + 1 < 8))
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] + 1, f.Coord[1] + 1 });
-            //ищем ход вниз влево
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] - 1 && f1.Coord[1] == f.Coord[1] + 1 && f1.IsWhite == !f.IsWhite) break;
+                if (RDE) RDE = false;
             }
-            if (f.Coord[0] - 1 > -1 && f.Coord[1] + 1 < 8) //если мы не выходим за границы поля
+            if ((LD || LDE) && (f.Coord[0] - 1 > -1 && f.Coord[1] + 1 < 8))
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] - 1, f.Coord[1] + 1 });
-            //ищем ход вверх вправо
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] + 1 && f1.Coord[1] == f.Coord[1] - 1 && f1.IsWhite == !f.IsWhite) break;
+                if (LDE) LDE = false;
             }
-            if (f.Coord[0] + 1 < 8 && f.Coord[1] - 1 > -1) //если мы не выходим за границы поля
+            if ((RU || RUE) && (f.Coord[0] + 1 < 8 && f.Coord[1] - 1 > -1))
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] + 1, f.Coord[1] - 1 });
-            //ищем ход верх влево
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] - 1 && f1.Coord[1] == f.Coord[1] - 1 && f1.IsWhite == !f.IsWhite) break;
+                if (RUE) RUE = false;
             }
-            if (f.Coord[0] - 1 > -1 && f.Coord[1] - 1 > -1) //если мы не выходим за границы поля
+            if ((LU || LUE) && (f.Coord[0] - 1 > -1 && f.Coord[1] - 1 > -1))
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] - 1, f.Coord[1] - 1 });
-            //ищем ход вправо
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] + 1 && f1.IsWhite == !f.IsWhite) break;
+                if (LUE) LUE = false;
             }
-            if (f.Coord[0] + 1 < 8) //если мы не выходим за границы поля
+            if ((R || RE) && f.Coord[0] + 1 < 8)
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] + 1, f.Coord[1] });
-            //ищем ход влево
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[0] == f.Coord[0] - 1 && f1.IsWhite == !f.IsWhite) break;
+                if (RE) RE = false;
             }
-            if (f.Coord[0] - 1 > -1) //если мы не выходим за границы поля
+            if ((L || LE) && f.Coord[0] - 1 > -1)
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0] - 1, f.Coord[1] });
-            //ищем ход верх
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[1] == f.Coord[1] - 1 && f1.IsWhite == !f.IsWhite) break;
+                if (LE) LE = false;
             }
-            if (f.Coord[1] - 1 > -1) //если мы не выходим за границы поля
+            if ((U || UE) && f.Coord[1] - 1 > -1)
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0], f.Coord[1] - 1 });
-            //ищем ход вниз
-            foreach (Figure f1 in figures)
-            {
-                if (f1.Equals(f)) continue;
-                if (f1.Coord[1] == f.Coord[1] + 1 && f1.IsWhite == !f.IsWhite) break;
+                if (UE) UE = false;
             }
-            if (f.Coord[1] + 1 < 8) //если мы не выходим за границы поля
+            if ((D || DE) && f.Coord[1] + 1 < 8)
+            {
                 allowedSteps.Add(new int[2] { f.Coord[0], f.Coord[1] + 1 });
-
+                if (DE) DE = false;
+            }
             return allowedSteps;
         }
     }
