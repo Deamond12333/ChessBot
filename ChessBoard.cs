@@ -16,10 +16,10 @@ namespace ChessBotOnline
     {
         ChessTile tile;
         StartSettings ss;
+        List<Step> allowedSteps = new List<Step>();
         const float BEGIN_X = 421f, BEGIN_Y = 60f, STEP = 94f;
         bool isWhite, botVSbot, botsWar;
         int stepTime;
-        Figure selectFigure = new Figure();
         Dictionary<string, float[]> drawCoordBuffer = new Dictionary<string, float[]>();
         public ChessBoard()
         {
@@ -46,6 +46,7 @@ namespace ChessBotOnline
             float[] coord;
             foreach(Figure f in tile.Figures)
             {
+                if (f.IsEaten) continue;
                 coord = getCoordsForDrawing(f.Coord);
                 e.Graphics.DrawImage(Image.FromFile(f.ImgPath), coord[0], coord[1], 100, 100);
             }
@@ -64,85 +65,89 @@ namespace ChessBotOnline
                 }
             }
         }
-        private float[] getCoordsForDrawing(int[] chessCoord)
+        private float[] getCoordsForDrawing(Step step)
         {
             float[] coord = new float[2];
-            coord[0] = BEGIN_X + STEP * chessCoord[0];
-            coord[1] = BEGIN_Y + STEP * chessCoord[1];
+            coord[0] = BEGIN_X + STEP * step.X;
+            coord[1] = BEGIN_Y + STEP * step.Y;
             return coord;
         }
 
+        private float[] getCoordsForDrawing(int[] c)
+        {
+            float[] coord = new float[2];
+            coord[0] = BEGIN_X + STEP * c[0];
+            coord[1] = BEGIN_Y + STEP * c[1];
+            return coord;
+        }
+
+        private Step getStepFromCoord(int[] coord)
+        {
+            if (allowedSteps.Count == 0) return null;
+            foreach(Step s in allowedSteps)
+            {
+                if (s.X == coord[0] && s.Y == coord[1]) return s;
+            }
+            return null;
+        }
         private void ChessBoard_MouseClick(object sender, MouseEventArgs e)
         {
             int[] clickCoord = new int[2];
-            List<int[]> allowedSteps = new List<int[]>();
             clickCoord[0] = (int)(((e.X - BEGIN_X) - ((e.X - BEGIN_X) % STEP)) / STEP);
             clickCoord[1] = (int)(((e.Y - BEGIN_Y) - ((e.Y - BEGIN_Y) % STEP)) / STEP);
-            Figure f = tile.getFigureFromCoord(clickCoord);
-            if (f != null && !selectFigure.Equals(f))
+            Step qurStep = getStepFromCoord(clickCoord);
+            if (qurStep != null)
             {
-                drawCoordBuffer.Clear();
-                selectFigure = f;
-                switch (f.GetType().ToString())
-                {
-                    case "ChessDriver.Figures.Pawn":
-
-                        allowedSteps = ((Pawn)f).getAllowedSteps(tile.Figures, f);
-                        break;
-
-                    case "ChessDriver.Figures.Knight":
-                        allowedSteps = ((Knight)f).getAllowedSteps(tile.Figures, f);
-                        break;
-
-                    case "ChessDriver.Figures.King":
-                        allowedSteps = ((King)f).getAllowedSteps(tile.Figures, f);
-                        break;
-
-                    case "ChessDriver.Figures.Bishop":
-                        allowedSteps = ((Bishop)f).getAllowedSteps(tile.Figures, f);
-                        break;
-
-                    case "ChessDriver.Figures.Queen":
-                        allowedSteps = ((Queen)f).getAllowedSteps(tile.Figures, f);
-                        break;
-
-                    case "ChessDriver.Figures.Rook":
-                        allowedSteps = ((Rook)f).getAllowedSteps(tile.Figures, f);
-                        break;
-                }
-
-                float[] coordForFigureBorder = getCoordsForDrawing(f.Coord);
-                drawCoordBuffer.Add("rectangle", new float[2] { coordForFigureBorder[0] + 2, coordForFigureBorder[1] + 4 });
-                foreach (int[] coord in allowedSteps)
-                {
-                    float[] coordForDrawSteps = getCoordsForDrawing(coord);
-                    drawCoordBuffer.Add("point"+allowedSteps.IndexOf(coord), new float[2] { coordForDrawSteps[0] + STEP / 2, coordForDrawSteps[1] + STEP / 2 });
-                }
-            }
-            else if (selectFigure.Equals(f))
-            {
-                drawCoordBuffer.Clear();
-                selectFigure = new Figure();
+                qurStep.doStep(tile.Figures);
+                if (drawCoordBuffer.Count > 0) drawCoordBuffer.Clear();
+                if (allowedSteps.Count > 0) allowedSteps.Clear();
             }
             else
             {
-                foreach (KeyValuePair<string, float[]> p in drawCoordBuffer)
+                if (drawCoordBuffer.Count > 0)
                 {
-                    if (!p.Key.Equals("rectangle"))
-                    {
-                        float[] coords = getCoordsForDrawing(clickCoord);
-                        if (p.Value[0] - STEP / 2 == coords[0] && p.Value[1] - STEP / 2 == coords[1])
-                        {
-                            selectFigure.Coord = clickCoord;
-                            selectFigure = new Figure();
-                            drawCoordBuffer.Clear();
-                            break;
-                        }
-                    }
+                    drawCoordBuffer.Clear();
+                    Refresh();
+                    return;
+                }
+                Figure qurF = tile.getFigureFromCoord(clickCoord);
+                if (qurF == null) return;
+                // если мы щёлкнули по фигуре
+                switch (qurF.GetType().ToString())
+                {
+                    case "ChessDriver.Figures.Pawn":
+                        allowedSteps = ((Pawn)qurF).getAllowedSteps(tile.Figures);
+                        break;
+
+                    case "ChessDriver.Figures.Knight":
+                        allowedSteps = ((Knight)qurF).getAllowedSteps(tile.Figures);
+                        break;
+
+                    case "ChessDriver.Figures.King":
+                        allowedSteps = ((King)qurF).getAllowedSteps(tile.Figures);
+                        break;
+
+                    case "ChessDriver.Figures.Bishop":
+                        allowedSteps = ((Bishop)qurF).getAllowedSteps(tile.Figures);
+                        break;
+
+                    case "ChessDriver.Figures.Queen":
+                        allowedSteps = ((Queen)qurF).getAllowedSteps(tile.Figures);
+                        break;
+
+                    case "ChessDriver.Figures.Rook":
+                        allowedSteps = ((Rook)qurF).getAllowedSteps(tile.Figures);
+                        break;
+                }
+                float[] coordForFigureBorder = getCoordsForDrawing(qurF.Coord);
+                drawCoordBuffer.Add("rectangle", new float[2] { coordForFigureBorder[0] + 2, coordForFigureBorder[1] + 4 });
+                foreach (Step step in allowedSteps)
+                {
+                    float[] coordForDrawSteps = getCoordsForDrawing(step);
+                    drawCoordBuffer.Add("point" + allowedSteps.IndexOf(step), new float[2] { coordForDrawSteps[0] + STEP / 2, coordForDrawSteps[1] + STEP / 2 });
                 }
             }
             Refresh();
-
         }
     }
 }

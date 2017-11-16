@@ -8,9 +8,9 @@ namespace ChessDriver.Figures
 {
     public class Queen:Figure
     {
-        public List<int[]> getAllowedSteps(List<Figure> figures, Figure f)
+        public List<Step> getAllowedSteps(List<Figure> figures)
         {
-            List<int[]> allowedSteps = new List<int[]>();
+            List<Step> allowedSteps = new List<Step>();
             bool U = true, RU = true, R = true, RD = true, D = true, LD = true, L = true, LU = true;
             bool UE = false, RUE = false, RE = false, RDE = false, DE = false, LDE = false, LE = false, LUE = false;
             int stepLength = 1;
@@ -18,94 +18,135 @@ namespace ChessDriver.Figures
             {
                 foreach (Figure f1 in figures)
                 {
-                    if (f1.Equals(f)) continue;
+                    if (f1.Equals(this)) continue;
                     //ищем ход вниз вправо
-                    if (RD && f1.Coord[0] == f.Coord[0] + stepLength && f1.Coord[1] == f.Coord[1] + stepLength)
+                    if (RD && f1.Coord[0] == Coord[0] + stepLength && f1.Coord[1] == Coord[1] + stepLength)
                     {
-                        if (f1.IsWhite != f.IsWhite) RDE = true;
+                        if (f1.IsWhite != IsWhite) RDE = true;
                         RD = false;
+                        continue;
                     }
                     //ищем ход вниз влево
-                    if (LD && f1.Coord[0] == f.Coord[0] - stepLength && f1.Coord[1] == f.Coord[1] + stepLength)
+                    if (LD && f1.Coord[0] == Coord[0] - stepLength && f1.Coord[1] == Coord[1] + stepLength)
                     {
-                        if (f1.IsWhite != f.IsWhite) LDE = true;
+                        if (f1.IsWhite != IsWhite) LDE = true;
                         LD = false;
+                        continue;
                     }
                     //ищем ход вверх вправо
-                    if (RU && f1.Coord[0] == f.Coord[0] + stepLength && f1.Coord[1] == f.Coord[1] - stepLength)
+                    if (RU && f1.Coord[0] == Coord[0] + stepLength && f1.Coord[1] == Coord[1] - stepLength)
                     {
-                        if (f1.IsWhite != f.IsWhite) RUE = true;
+                        if (f1.IsWhite != IsWhite) RUE = true;
                         RU = false;
+                        continue;
                     }
                     //ищем ход вверх влево
-                    if (LU && f1.Coord[0] == f.Coord[0] - stepLength && f1.Coord[1] == f.Coord[1] - stepLength)
+                    if (LU && f1.Coord[0] == Coord[0] - stepLength && f1.Coord[1] == Coord[1] - stepLength)
                     {
-                        if (f1.IsWhite != f.IsWhite) LUE = true;
+                        if (f1.IsWhite != IsWhite) LUE = true;
                         LU = false;
+                        continue;
                     }
                     //ищем ход вправо
-                    if (R && f1.Coord[0] == f.Coord[0] + stepLength && f1.Coord[1] == f.Coord[1])
+                    if (R && f1.Coord[0] == Coord[0] + stepLength && f1.Coord[1] == Coord[1])
                     {
-                        if (f1.IsWhite != f.IsWhite) RE = true;
+                        if (f1.IsWhite != IsWhite) RE = true;
                         R = false;
+                        continue;
                     }
                     //ищем ход влево
-                    if (L && f1.Coord[0] == f.Coord[0] - stepLength && f1.Coord[1] == f.Coord[1])
+                    if (L && f1.Coord[0] == Coord[0] - stepLength && f1.Coord[1] == Coord[1])
                     {
-                        if (f1.IsWhite != f.IsWhite) LE = true;
+                        if (f1.IsWhite != IsWhite) LE = true;
                         L = false;
+                        continue;
                     }
                     //ищем ход верх
-                    if (U && f1.Coord[1] == f.Coord[1] - stepLength && f1.Coord[0] == f.Coord[0])
+                    if (U && f1.Coord[1] == Coord[1] - stepLength && f1.Coord[0] == Coord[0])
                     {
-                        if (f1.IsWhite != f.IsWhite) UE = true;
+                        if (f1.IsWhite != IsWhite) UE = true;
                         U = false;
+                        continue;
+
                     }
                     //ищем ход вниз
-                    if (D && f1.Coord[1] == f.Coord[1] + stepLength && f1.Coord[0] == f.Coord[0])
+                    if (D && f1.Coord[1] == Coord[1] + stepLength && f1.Coord[0] == Coord[0])
                     {
-                        if (f1.IsWhite != f.IsWhite) DE = true;
+                        if (f1.IsWhite != IsWhite) DE = true;
                         D = false;
+                        continue;
                     }
                 }
-                if ((RD || RDE) && (f.Coord[0] + stepLength < 8 && f.Coord[1] + stepLength < 8))
+                if ((RD || RDE) && (Coord[0] + stepLength < 8 && Coord[1] + stepLength < 8))
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] + stepLength, f.Coord[1] + stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0] + stepLength;
+                    step.Y = Coord[1] + stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (RDE) RDE = false;
                 }
-                if ((LD || LDE) && (f.Coord[0] - stepLength > -1 && f.Coord[1] + stepLength < 8))
+                if ((LD || LDE) && (Coord[0] - stepLength > -1 && Coord[1] + stepLength < 8))
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] - stepLength, f.Coord[1] + stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0] - stepLength;
+                    step.Y = Coord[1] + stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (LDE) LDE = false;
                 }
-                if ((RU || RUE) && (f.Coord[0] + stepLength < 8 && f.Coord[1] - stepLength > -1))
+                if ((RU || RUE) && (Coord[0] + stepLength < 8 && Coord[1] - stepLength > -1))
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] + stepLength, f.Coord[1] - stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0] + stepLength;
+                    step.Y = Coord[1] - stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (RUE) RUE = false;
                 }
-                if ((LU || LUE) && (f.Coord[0] - stepLength > -1 && f.Coord[1] - stepLength > -1))
+                if ((LU || LUE) && (Coord[0] - stepLength > -1 && Coord[1] - stepLength > -1))
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] - stepLength, f.Coord[1] - stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0] - stepLength;
+                    step.Y = Coord[1] - stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (LUE) LUE = false;
                 }
-                if ((R || RE) && f.Coord[0] + stepLength < 8)
+                if ((R || RE) && Coord[0] + stepLength < 8)
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] + stepLength, f.Coord[1] });
+                    Step step = new Step();
+                    step.X = Coord[0] + stepLength;
+                    step.Y = Coord[1];
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (RE) RE = false;
                 }
-                if ((L || LE) && f.Coord[0] - stepLength > -1)
+                if ((L || LE) && Coord[0] - stepLength > -1)
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0] - stepLength, f.Coord[1] });
+                    Step step = new Step();
+                    step.X = Coord[0] - stepLength;
+                    step.Y = Coord[1];
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (LE) LE = false;
                 }
-                if ((U || UE) && f.Coord[1] - stepLength > -1)
+                if ((U || UE) && Coord[1] - stepLength > -1)
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0], f.Coord[1] - stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0];
+                    step.Y = Coord[1] - stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (UE) UE = false;
                 }
-                if ((D || DE) && f.Coord[1] + stepLength < 8)
+                if ((D || DE) && Coord[1] + stepLength < 8)
                 {
-                    allowedSteps.Add(new int[2] { f.Coord[0], f.Coord[1] + stepLength });
+                    Step step = new Step();
+                    step.X = Coord[0];
+                    step.Y = Coord[1] + stepLength;
+                    step.Parent = this;
+                    allowedSteps.Add(step);
                     if (DE) DE = false;
                 }
                 stepLength++;
